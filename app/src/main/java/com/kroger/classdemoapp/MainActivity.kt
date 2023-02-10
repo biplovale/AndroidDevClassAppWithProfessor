@@ -2,8 +2,11 @@ package com.kroger.classdemoapp
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.commit
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.kroger.classdemoapp.UI.CharacterDetailFragment
+import com.kroger.classdemoapp.UI.CharacterListFragment
 import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
@@ -11,26 +14,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val recyclerView = findViewById<RecyclerView>(R.id.character_recycler_view)
-
-        recyclerView.layoutManager = LinearLayoutManager(this)
-
-        val characters = mutableListOf<Character>()
-
-        for (i in 0..30) {
-            characters.add(createCharacter())
+        supportFragmentManager.commit {
+            setReorderingAllowed(true)
+            add(R.id.fragment_container_view, CharacterListFragment())
+            addToBackStack(null)
         }
 
-        val adapter = CharacterAdapter(characters)
-        recyclerView.adapter = adapter
     }
 
-    private fun createCharacter() = Character(
-        name = "Liam",
-        age = Random.nextInt(10, 99),
-        image = R.drawable.baseline_10k_24,
-        universe = "Earth",
-        id = 0,
-        relation = listOf()
-    )
+
 }
